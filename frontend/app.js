@@ -1,9 +1,7 @@
 const lista = document.getElementById('lista');
-
-// Función asíncrona para obtener y mostrar los cursos (Reto 4)
 async function cargarCursos() {
     try {
-        const response = await fetch('http://localhost:3000/api/cursos');
+        const response = await fetch('/api/cursos');
         
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
@@ -11,16 +9,13 @@ async function cargarCursos() {
 
         const cursos = await response.json();
         
-        // Limpiar lista por si acaso
         lista.innerHTML = '';
 
         cursos.forEach(curso => {
             const li = document.createElement('li');
-            // Aplicando clases de Tailwind (Reto 3)
+
             li.className = "bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300";
             
-            // Reto 1: Mostrar imagen
-            // Usamos una imagen por defecto si no hay url, o la url proporcionada
             const imagenUrl = curso.imagen || 'https://via.placeholder.com/400x200?text=No+Image';
 
             li.innerHTML = `
@@ -43,5 +38,4 @@ async function cargarCursos() {
     }
 }
 
-// Iniciar la carga
 cargarCursos();

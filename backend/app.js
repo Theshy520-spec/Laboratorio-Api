@@ -16,3 +16,5 @@ app.use('/api/cursos', cursosRouter);
 app.listen(PORT, () => {
 console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
+
+export default app;
