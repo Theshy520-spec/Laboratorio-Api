@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Nuevo Curso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Añadir Nuevo Curso</h2>
+        
+        <form id="formCurso" class="space-y-6">
+            <div>
+                <label for="titulo" class="block text-sm font-medium text-gray-700">Título del Curso</label>
+                <input type="text" id="titulo" name="titulo" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <div>
+                <label for="familia" class="block text-sm font-medium text-gray-700">Familia Profesional</label>
+                <input type="text" id="familia" name="familia" required
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="nivel" class="block text-sm font-medium text-gray-700">Nivel</label>
+                    <select id="nivel" name="nivel" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="ESO">ESO</option>
+                        <option value="Bachillerato">Bachillerato</option>
+                        <option value="GM">Grado Medio</option>
+                        <option value="GS">Grado Superior</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="duracion" class="block text-sm font-medium text-gray-700">Duración (horas)</label>
+                    <input type="number" id="duracion" name="duracion" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+            </div>
+
+            <div>
+                <label for="imagen" class="block text-sm font-medium text-gray-700">URL de la Imagen</label>
+                <input type="url" id="imagen" name="imagen" placeholder="https://ejemplo.com/imagen.png"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <div class="flex justify-between pt-4">
+                <a href="index.html" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">Cancelar</a>
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Guardar Curso</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('formCurso').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Reto 2: Evitar envío por defecto para manejarlo con JS
+
+            const formData = {
+                titulo: document.getElementById('titulo').value,
+                familia: document.getElementById('familia').value,
+                nivel: document.getElementById('nivel').value,
+                duracion: parseInt(document.getElementById('duracion').value),
+                imagen: document.getElementById('imagen').value || 'https://via.placeholder.com/400x200?text=Curso+Sin+Imagen'
+            };
+
+            try {
+                // Reto 4: Comunicación asíncrona
+                const response = await fetch('http://localhost:3000/api/cursos', {
+                    method: 'POST', // Reto 2: Método POST
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alert('Curso añadido correctamente');
+                    window.location.href = 'index.html'; // Redirigir al listado
+                } else {
+                    const errorData = await response.json();
+                    alert('Error al guardar: ' + errorData.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión al servidor');
+            }
+        });
+    </script>
+</body>
+</html>
