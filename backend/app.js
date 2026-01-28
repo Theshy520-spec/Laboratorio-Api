@@ -13,8 +13,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/cursos', cursosRouter);
-app.listen(PORT, () => {
-console.log(`Servidor escuchando en http://localhost:${PORT}`);
-});
+
+// Solo iniciar el servidor si se ejecuta el archivo directamente (no en Vercel)
+if (process.argv[1] === __filename) {
+    app.listen(PORT, () => {
+        console.log(`Servidor escuchando en http://localhost:${PORT}`);
+    });
+}
 
 export default app;
