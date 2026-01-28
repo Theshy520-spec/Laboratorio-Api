@@ -3,11 +3,11 @@
     "rewrites": [
         {
             "source": "/(.*)",
-            "destination": "/backend/app.js"
+            "destination": "/api/index.js"
         }
     ],
     "functions": {
-        "backend/app.js": {
+        "api/index.js": {
             "includeFiles": "frontend/**"
         }
     }
